@@ -41,17 +41,19 @@ public class Practice5 {
 
     public static void Task02() {
         Console.WriteLine("-Practice5--Task02-");
-        string text = Console.ReadLine();
-        string[] strings = ReversWords(text);
-        PrintArray(strings);
+        string enterText = Console.ReadLine();
+        Console.WriteLine($"enterText: {enterText}");
+        string reversString = ReversWords(enterText);
+        Console.WriteLine($"reversString: {reversString}");
     }
 
-    private static string[] ReversWords(string inputPhrase) {
+    private static string ReversWords(string inputPhrase) {
         string[] strings = SplitText(inputPhrase, ' ');
-        string[] reversStrings = new string[strings.Length];
+        string ResultString = String.Empty; 
         for (int i = 0; i < strings.Length; i++) {
-            reversStrings[i] = strings[strings.Length - 1 - i];
+            ResultString += strings[strings.Length - 1 - i];
+            ResultString += " ";
         }
-        return reversStrings;
+        return ResultString;
     }
 }
