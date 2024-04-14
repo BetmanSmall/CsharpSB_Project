@@ -7,10 +7,12 @@ public class Practice7 {
         repository = new Repository();
         do {
             Console.WriteLine("Выберите действие -- ");
-            Console.WriteLine(" - 1. Вывести данные на экран || GetAllWorkers");
-            Console.WriteLine(" - 2. Получить запись по ИД");
-            Console.WriteLine(" - 3. Удалить запись по ИД");
-            Console.WriteLine(" - 4. Добавить запись");
+            Console.WriteLine(" - 1. Вывести все записи на экран || GetAllWorkers");
+            Console.WriteLine(" - 2. Получить запись по ИД || GetWorkerById");
+            Console.WriteLine(" - 3. Удалить запись по ИД || DeleteWorkerById");
+            Console.WriteLine(" - 4. Добавить запись || AddWorker");
+            Console.WriteLine(" - 5. Вывести записи между датами || PrintByDates");
+            Console.WriteLine(" - 6. Вывести записи отсортированые по датами создания || PrintSortByCreateDate");
             Console.WriteLine(" - 0. Выйти из программы");
             int enterValue = int.Parse(Console.ReadLine());
             if (enterValue == 0) break;
@@ -18,6 +20,8 @@ public class Practice7 {
             else if (enterValue == 2) GetWorkerById();
             else if (enterValue == 3) DeleteWorkerById();
             else if (enterValue == 4) AddWorker();
+            else if (enterValue == 5) PrintByDates();
+            else if (enterValue == 6) PrintSortByCreateDate();
         } while (true);
     }
 
@@ -61,5 +65,24 @@ public class Practice7 {
         Console.Write("\nВвeдите Место рождения сотрудника:");
         worker.PlaceOfBirth = Console.ReadLine();
         repository.AddWorker(worker);
+    }
+
+    private static void PrintByDates() {
+        Console.Write("\nВвeдите первую Дату:");
+        DateTime dateFrom = DateTime.Parse(Console.ReadLine());
+        Console.Write("\nВвeдите вторую Дату:");
+        DateTime dateTo = DateTime.Parse(Console.ReadLine());
+        Worker[] workers = repository.GetWorkersBetweenTwoDates(dateFrom, dateTo);
+        foreach (Worker worker in workers) {
+            Console.Out.WriteLine(worker);
+        }
+    }
+
+    private static void PrintSortByCreateDate() {
+        Worker[] workers = repository.GetAllWorkers();
+        workers.OrderBy(w => w.CreatedDateTime);
+        foreach (Worker worker in workers) {
+            Console.Out.WriteLine(worker);
+        }
     }
 }
