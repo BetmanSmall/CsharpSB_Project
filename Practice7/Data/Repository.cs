@@ -9,10 +9,26 @@ public class Repository {
         if (LoadWorkers()) {
             return _workersDictionary.Values.ToArray();
         }
+        return Array.Empty<Worker>();
+    }
+
+    public Worker[] GetAllWorkersOrNull() {
+        if (LoadWorkers()) {
+            return _workersDictionary.Values.ToArray();
+        }
         return null;
     }
 
     public Worker GetWorkerById(string id) {
+        if (LoadWorkers()) {
+            if (_workersDictionary.ContainsKey(id)) {
+                return _workersDictionary[id];
+            }
+        }
+        return new Worker();
+    }
+
+    public Worker GetWorkerByIdOrNull(string id) {
         if (LoadWorkers()) {
             if (_workersDictionary.ContainsKey(id)) {
                 return _workersDictionary[id];
@@ -50,7 +66,7 @@ public class Repository {
             }
             return outWorkers.ToArray();
         }
-        return null;
+        return Array.Empty<Worker>();
     }
 
     private bool LoadWorkers() {

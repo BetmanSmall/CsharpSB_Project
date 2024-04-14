@@ -36,7 +36,7 @@ public class Practice7 {
     private static void GetWorkerById() {
         Console.Write("Введите ID:");
         string enterId = Console.ReadLine();
-        Worker worker = repository.GetWorkerById(enterId);
+        Worker worker = repository.GetWorkerByIdOrNull(enterId);
         Console.Out.WriteLine($"worker:{worker}");
     }
 
