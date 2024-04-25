@@ -1,4 +1,5 @@
 ﻿using CsharpSB_Project.Practice10.Data;
+using CsharpSB_Project.Practice10.Utils;
 
 namespace CsharpSB_Project.Practice10.Employees;
 public class Manager : Consultant {
@@ -13,7 +14,9 @@ public class Manager : Consultant {
                                   "   --- 5. Создать нового клиента" +
                                   "   --- 0. Назад" +
                                   "");
-            int enterValue = int.Parse(Console.ReadLine());
+            string enterValueString = (Console.ReadLine() ?? "0");
+            if (enterValueString == String.Empty) enterValueString = "0";
+            int enterValue = int.Parse(enterValueString);
             if (enterValue == 0) break;
             if (enterValue == 1) {
                 base.WorkWithClient(client);
@@ -39,24 +42,33 @@ public class Manager : Consultant {
     }
 
     public void ChangeClientFullName(Client client) {
+        FullName oldValue = client.FullName;
         Console.Out.Write("Введите фамилию: ");
-        string lastName = Console.ReadLine();
-        client.FullName.LastName = lastName;
+        string lastName = Console.ReadLine() ?? string.Empty;
+        if (lastName.Length > 0)
+            client.FullName.LastName = lastName;
         Console.Out.Write("Введите имя: ");
-        string firstName = Console.ReadLine();
-        client.FullName.FirstName = firstName;
+        string firstName = Console.ReadLine() ?? string.Empty;
+        if (firstName.Length > 0)
+            client.FullName.FirstName = firstName;
         Console.Out.Write("Введите отчество: ");
-        string surName = Console.ReadLine();
-        client.FullName.SurName = surName;
+        string surName = Console.ReadLine() ?? string.Empty;
+        if (surName.Length > 0)
+            client.FullName.SurName = surName;
+        ChangeClientData(client, ClientChangeData.WhichDataChange.FullName, oldValue.ToString(), client.FullName.ToString());
     }
 
     public void ChangeClientSerialNumber(Client client) {
         do {
             Console.Out.Write("Введите серию и номер паспорта: ");
-            string serialNumber = Console.ReadLine();
-            var isNumeric = int.TryParse(serialNumber, out _);
+            string serialNumber = Console.ReadLine() ?? string.Empty;
+            if (serialNumber.Length == 0) serialNumber = RandomNumberGenerator.GenerateRandomNumber(10);
+            Console.Out.WriteLine($"Ты ввел serialNumber: {serialNumber}");
+            var isNumeric = serialNumber.All(char.IsDigit);
             if (isNumeric && serialNumber.Length == 10) {
+                string oldValue = client.SerialNumber;
                 client.SerialNumber = serialNumber;
+                ChangeClientData(client, ClientChangeData.WhichDataChange.SerialNumber, oldValue, client.SerialNumber);
                 break;
             } else {
                 Console.Out.WriteLine("Ввел что то не то!");

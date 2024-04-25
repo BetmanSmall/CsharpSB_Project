@@ -4,6 +4,9 @@ using CsharpSB_Project.Practice10.Data;
 namespace CsharpSB_Project.Practice10.Utils;
 public static class ConsoleClientSelector {
     public static Client SelectClient() {
+        if (ClientsManager.Clients.Count == 0) {
+            return null;
+        }
         int clientsCountInPage = 10;
         int pageIndex = 0;
         do {
@@ -22,7 +25,9 @@ public static class ConsoleClientSelector {
             Console.Out.WriteLine(stringBuilder.ToString());
             Console.Out.WriteLine("Менять страницы: -1 = Назад, 0 = Вперед.");
             Console.Out.WriteLine("Выбери клиента:");
-            int enterValue = int.Parse(Console.ReadLine());
+            string enterValueString = (Console.ReadLine() ?? "0");
+            if (enterValueString == String.Empty) enterValueString = "0";
+            int enterValue = int.Parse(enterValueString);
             if (enterValue <= 0) {
                 if (enterValue == 0) {
                     pageIndex++;

@@ -15,6 +15,7 @@ public class PhoneNumber {
     public string number { get; set; }
 
     public PhoneNumber(string number) {
+        if (number.Length == 0) number = GenerateRandomPhoneNumber();
         if (IsPhoneNbr(number)) {
             this.number = number;
         } else {

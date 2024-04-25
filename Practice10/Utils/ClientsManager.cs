@@ -13,10 +13,11 @@ public static class ClientsManager {
     }
 
     public static void UnLoad() {
-        SerializeToFile(JsonFileName);
+        var task = SerializeToFile(JsonFileName);
+        task.Wait();
     }
 
-    public static async Task SerializeToFile(string fileName) {
+    private static async Task SerializeToFile(string fileName) {
         using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate)) {
             var options = new JsonSerializerOptions { WriteIndented = true };
             await JsonSerializer.SerializeAsync(fs, Clients, options);
@@ -24,7 +25,7 @@ public static class ClientsManager {
         }
     }
 
-    public static async Task DeserializeFromFile(string fileName) {
+    private static async Task DeserializeFromFile(string fileName) {
         if (!File.Exists(fileName)) return;
         using (FileStream fs = new FileStream(fileName, FileMode.OpenOrCreate)) {
             Clients = (await JsonSerializer.DeserializeAsync<List<Client>>(fs))!;

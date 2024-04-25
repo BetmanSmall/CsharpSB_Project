@@ -13,7 +13,9 @@ public class Consultant : Employee {
                                   "   --- 3. Изменить Номер телефона" +
                                   "   --- 0. Назад" +
                                   "");
-            int enterValue = int.Parse(Console.ReadLine());
+            string enterValueString = (Console.ReadLine() ?? "0");
+            if (enterValueString == String.Empty) enterValueString = "0";
+            int enterValue = int.Parse(enterValueString);
             if (enterValue == 0) break;
             if (enterValue == 1) {
                 Console.Out.WriteLine(GetClientSerialNumber(client));
@@ -44,7 +46,7 @@ public class Consultant : Employee {
         do {
             try {
                 Console.Out.Write("Введите номер телефона: ");
-                string phoneNumberStr = Console.ReadLine();
+                string phoneNumberStr = Console.ReadLine() ?? string.Empty;
                 PhoneNumber newPhoneNumber = new PhoneNumber(phoneNumberStr);
                 SetClientPhoneNumber(client, newPhoneNumber);
                 break;
@@ -56,9 +58,10 @@ public class Consultant : Employee {
     }
 
     public void SetClientPhoneNumber(Client client, PhoneNumber phoneNumber) {
+        PhoneNumber oldValue = client.PhoneNumber;
         client.PhoneNumber = phoneNumber;
-        Console.Out.WriteLine("Успешно! Новый номер:" + phoneNumber);
-        // Console.Out.WriteLine("Успешно! Новый номер:" + GetClientPhoneNumber(client));
+        Console.Out.WriteLine("Успешно! Новый номер:" + GetClientPhoneNumber(client));
+        ChangeClientData(client, ClientChangeData.WhichDataChange.PhoneNumber, oldValue.ToString(), client.PhoneNumber.ToString());
     }
 
     public string GetClientPhoneNumber(Client client) {

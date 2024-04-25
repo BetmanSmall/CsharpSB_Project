@@ -1,13 +1,10 @@
-﻿using CsharpSB_Project.Practice10.Data;
-using CsharpSB_Project.Practice10.Employees;
+﻿using CsharpSB_Project.Practice10.Employees;
 using CsharpSB_Project.Practice10.Utils;
 
 namespace CsharpSB_Project.Practice10;
-public class Practice10 {
+public static class Practice10 {
     public static void MainLoop() {
         ClientsManager.Load();
-        // new Client();
-        // new Client();
         do {
             Console.Out.WriteLine(string.Join(",", ClientsManager.Clients));
             Console.Out.Write("Кто ты войн?" +
@@ -15,7 +12,9 @@ public class Practice10 {
                                   "\n  --- 2. Менеджер!" +
                                   "\n  --- 0. Ахиллес, сын Пелея! | Выход!" +
                                   "\nЯ:");
-            int enterValue = int.Parse(Console.In.ReadLine());
+            string enterValueString = (Console.ReadLine() ?? "0");
+            if (enterValueString == String.Empty) enterValueString = "0";
+            int enterValue = int.Parse(enterValueString);
             if (enterValue == 0) break;
             Employee employee = null;
             if (enterValue == 1) {
