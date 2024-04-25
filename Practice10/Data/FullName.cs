@@ -18,6 +18,14 @@ public class FullName {
     }
 
     public override string ToString() {
-        return JsonSerializer.Serialize(this);
+        return ToString(true);
+    }
+
+    public string ToString(bool json) {
+        if (json) {
+            return JsonSerializer.Serialize(this);
+        } else {
+            return FirstName + ", " + LastName + ", " + SurName;
+        }
     }
 }

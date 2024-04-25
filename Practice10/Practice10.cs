@@ -6,8 +6,8 @@ namespace CsharpSB_Project.Practice10;
 public class Practice10 {
     public static void MainLoop() {
         ClientsManager.Load();
-        new Client();
-        new Client();
+        // new Client();
+        // new Client();
         do {
             Console.Out.WriteLine(string.Join(",", ClientsManager.Clients));
             Console.Out.Write("Кто ты войн?" +
@@ -17,15 +17,17 @@ public class Practice10 {
                                   "\nЯ:");
             int enterValue = int.Parse(Console.In.ReadLine());
             if (enterValue == 0) break;
-            Employee employee;
+            Employee employee = null;
             if (enterValue == 1) {
                 employee = new Consultant();
-                employee.WorkWithClients();
             } else if (enterValue == 2) {
                 employee = new Manager();
             }
+            if (employee != null) {
+                employee.WorkWithClients();
+            }
         } while (true);
-        Console.Out.WriteLine(string.Join(",", Client.Clients));
+        Console.Out.WriteLine(string.Join(",", ClientsManager.Clients));
         ClientsManager.UnLoad();
     }
 }
